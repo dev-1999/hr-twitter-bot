@@ -21,7 +21,7 @@ from os import environ
 
 auth = tweepy.OAuthHandler(consumer_key=environ['CONSUMER_KEY'],
                   consumer_secret=environ['CONSUMER_SECRET'])
-auth.set_access_token(environ['ACCESS KEY'],environ['ACCESS_SECRET'])
+auth.set_access_token(environ['ACCESS_KEY'],environ['ACCESS_SECRET'])
 api = tweepy.API(auth)
 
 
