@@ -155,7 +155,7 @@ while True:
                 pass
             else:
                 tweet = (tweet_wrapper(ind))
-                #tweet_links.append(api.update_status(tweet))
+                tweet_links.append(api.update_status(tweet))
                 print(tweet)
                 print(datetime.datetime.now().strftime("%H:%M:%S"))
                 tweeted_ids.append(ind)
