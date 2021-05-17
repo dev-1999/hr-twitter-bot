@@ -99,7 +99,7 @@ def tweet_wrapper(ind):
 
 
 today_string = datetime.date.today().strftime("%m/%d/%Y")
-daygames = statsapi.schedule(date='5/16/2021')
+daygames = statsapi.schedule(date=today_string)
 game_list = [daygames[i]['game_id'] for i in range(len(daygames))]
 
 
@@ -161,7 +161,7 @@ while True:
                 tweeted_ids.append(ind)
     else:
         pass
-    sleep(3)
+    sleep(8)
     print("Updated as of: " + datetime.datetime.now().strftime("%H:%M:%S"))
 
 
