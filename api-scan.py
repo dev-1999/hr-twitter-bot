@@ -14,6 +14,12 @@ from time import sleep
 import tweepy
 import pickle
 from os import environ
+from pytz import timezone
+
+utc = timezone('UTC')
+hon = timezone('HST')
+curtime = utc.localize(datetime.datetime.now())
+hi_time = curtime.astimezone(hon)
 
 
 # In[32]:
@@ -97,13 +103,30 @@ def tweet_wrapper(ind):
 
 # In[37]:
 
+#Read in previous tweets
+id_list = []
+idfile = open('id_list.txt','r')
+for line in idfile:
+    id_list.append(line.strip('\n'))
+idfile.close()
 
-today_string = datetime.date.today().strftime("%m/%d/%Y")
+today_string = hi_time.strftime("%m/%d/%Y")
 daygames = statsapi.schedule(date=today_string)
 game_list = [daygames[i]['game_id'] for i in range(len(daygames))]
 
 
 # In[17]:
+
+#Check to see potential reset
+if len(id_list) > 0:
+    if id_list[0] != today_string:
+        idfile = open('id_list.txt','w')
+        idfile.write(today_string)
+        id_list = []
+        idfile = open('id_list.txt','r')
+        for line in idfile:
+            id_list.append(line)
+        idfile.close()
 
 
 #Main Loop:
@@ -151,14 +174,17 @@ while True:
         todays_df['score'] = y_pred_list
         todays_df['ols'] = ols.predict(todays_df[['arc_length','hit_distance','yhat_angle_pct']])
         for ind in todays_df.index.tolist():
-            if ind in tweeted_ids:
+            if todays_df.loc[ind, 'id'] in tweeted_ids:
                 pass
             else:
                 tweet = (tweet_wrapper(ind))
                 tweet_links.append(api.update_status(tweet))
                 print(tweet)
                 print(datetime.datetime.now().strftime("%H:%M:%S"))
-                tweeted_ids.append(ind)
+                tweeted_ids.append(todays_df.loc[ind, 'id'])
+                idfile = open('id_list.txt', 'a')
+                idfile.write("\n" + todays_df.loc[ind, 'id'])
+                idfile.close()
     else:
         pass
     sleep(8)
