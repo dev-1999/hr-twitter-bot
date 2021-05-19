@@ -188,7 +188,7 @@ while True:
     else:
         pass
     sleep(8)
-    print("Updated as of: " + datetime.datetime.now().strftime("%H:%M:%S"))
+    print("Updated as of: " + datetime.datetime.now().strftime("%H:%M:%S") + today_string)
 
 
 # In[40]:
