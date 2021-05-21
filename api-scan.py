@@ -75,11 +75,18 @@ def check_todays_games(game_list):
                         hitData = (play['playEvents'][-1]['hitData'])
                         stands_list.append(play['matchup']['batSide']['code'])
                         #print(play['result']['description'])
-                        hit_distance_list.append(hitData['totalDistance'])
-                        launch_speed_list.append(hitData['launchSpeed'])
-                        launch_angle_list.append(hitData['launchAngle'])
-                        hcx_list.append(hitData['coordinates']['coordX'])
-                        hcy_list.append(hitData['coordinates']['coordY'])
+                        if 'totalDistance' in hitData.keys():
+                            hit_distance_list.append(hitData['totalDistance'])
+                            launch_speed_list.append(hitData['launchSpeed'])
+                            launch_angle_list.append(hitData['launchAngle'])
+                            hcx_list.append(hitData['coordinates']['coordX'])
+                            hcy_list.append(hitData['coordinates']['coordY'])
+                        else:
+                            hit_distance_list.append(-1)
+                            launch_speed_list.append(-1)
+                            launch_angle_list.append(-1)
+                            hcx_list.append(-1)
+                            hcy_list.append(-1)
                         #print("--")
             except KeyError:
                 pass
@@ -170,7 +177,7 @@ while True:
                                         'Vy':Vy_list,'Vx':Vx_list, 'arc_length':arc_length_list, 'spray_dist':spray_dist_list,
                                             'yhat_delta':yhat_delta_list})
     if len(todays_df) > 0:
-        y_pred_list = regr.predict(todays_df[['hit_distance', 'launch_angle', 'yhat_angle_pct', 'Vy', 'Vx', 'arc_length']])
+        y_pred_list = regr.predict(todays_df[['hit_distance', 'launch_angle', 'yhat_delta', 'yhat_angle_pct', 'Vy', 'Vx', 'arc_length']])
         todays_df['score'] = y_pred_list
         todays_df['ols'] = ols.predict(todays_df[['arc_length','hit_distance','yhat_angle_pct']])
         for ind in todays_df.index.tolist():
@@ -180,6 +187,7 @@ while True:
                 tweet = (tweet_wrapper(ind))
                 tweet_links.append(api.update_status(tweet))
                 print(tweet)
+                print(todays_df.loc[ind, 'id'])
                 print(datetime.datetime.now().strftime("%H:%M:%S"))
                 tweeted_ids.append(todays_df.loc[ind, 'id'])
                 idfile = open('id_list.txt', 'a')
