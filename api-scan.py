@@ -199,8 +199,6 @@ while True:
                     print('TweepError:')
                     print(e.message[0]['code']) # prints 34
 
-else:
-        pass
     sleep(8)
     print("Updated as of: " + datetime.datetime.now().strftime("%H:%M:%S") + today_string)
 
