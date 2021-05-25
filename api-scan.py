@@ -197,7 +197,7 @@ while True:
                     print('sent!')
                 except tweepy.TweepError as e:
                     print('TweepError:')
-                    print(e.message[0]['code']) # prints 34
+                    #print(e.message[0]['code']) # prints 34
 
     sleep(8)
     print("Updated as of: " + datetime.datetime.now().strftime("%H:%M:%S") + today_string)
