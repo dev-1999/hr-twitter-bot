@@ -185,8 +185,8 @@ while True:
                 pass
             else:
                 tweet = (tweet_wrapper(ind))
-                tweet_links.append(api.update_status(tweet))
                 print(tweet)
+                tweet_links.append(api.update_status(tweet))
                 print(todays_df.loc[ind, 'id'])
                 print(datetime.datetime.now().strftime("%H:%M:%S"))
                 tweeted_ids.append(todays_df.loc[ind, 'id'])
