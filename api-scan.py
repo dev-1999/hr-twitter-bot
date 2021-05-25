@@ -184,15 +184,18 @@ while True:
             if todays_df.loc[ind, 'id'] in tweeted_ids or todays_df.loc[ind, 'id'] in id_list:
                 pass
             else:
-                tweet = (tweet_wrapper(ind))
-                print(tweet)
-                tweet_links.append(api.update_status(tweet))
-                print(todays_df.loc[ind, 'id'])
-                print(datetime.datetime.now().strftime("%H:%M:%S"))
-                tweeted_ids.append(todays_df.loc[ind, 'id'])
-                idfile = open('id_list.txt', 'a')
-                idfile.write("\n" + todays_df.loc[ind, 'id'])
-                idfile.close()
+                try:
+                    tweet = (tweet_wrapper(ind))
+                    print(tweet)
+                    tweet_links.append(api.update_status(tweet))
+                    print(todays_df.loc[ind, 'id'])
+                    print(datetime.datetime.now().strftime("%H:%M:%S"))
+                    tweeted_ids.append(todays_df.loc[ind, 'id'])
+                    idfile = open('id_list.txt', 'a')
+                    idfile.write("\n" + todays_df.loc[ind, 'id'])
+                    idfile.close()
+                except TweepError:
+                    pass
     else:
         pass
     sleep(8)
