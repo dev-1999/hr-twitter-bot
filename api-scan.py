@@ -98,7 +98,7 @@ def check_todays_games(game_list):
 def tweet_wrapper(ind):
     stars = ""
     score = todays_df.loc[ind,'score']
-    for thresh in [3,4,5,6.42,7.46]:
+    for thresh in [3.01,3.93,4.6,6.42,7.46]:
         if score > thresh:
             stars = stars + "⭐"
     if stars == "":
