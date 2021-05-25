@@ -181,7 +181,7 @@ while True:
         todays_df['score'] = y_pred_list
         todays_df['ols'] = ols.predict(todays_df[['arc_length','hit_distance','yhat_angle_pct']])
         for ind in todays_df.index.tolist():
-            if todays_df.loc[ind, 'id'] in tweeted_ids:
+            if todays_df.loc[ind, 'id'] in tweeted_ids or todays_df.loc[ind, 'id'] in id_list:
                 pass
             else:
                 tweet = (tweet_wrapper(ind))
