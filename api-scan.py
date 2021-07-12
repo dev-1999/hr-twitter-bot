@@ -165,7 +165,7 @@ while True:
         yhat = 0
         for j in range(3):
             yhat += adjpull_angle_list[i]**(2-j) * poly_coef[j]
-        yhat_angle_pct_list.append(yhat/hit_distance_list[i])
+        yhat_angle_pct_list.append(hit_distance_list[i]/yhat)
         yhat_delta_list.append(hit_distance_list[i] - yhat)
     Vy_list = [launch_speed_list[i] * math.sin(launch_angle_list[i]*2*math.pi/360) for i in range(len(launch_angle_list))]
     Vx_list = [launch_speed_list[i] * math.cos(launch_angle_list[i]*2*math.pi/360) for i in range(len(launch_angle_list))]
@@ -190,7 +190,7 @@ while True:
                     tweet_links.append(api.update_status(tweet))
                     print(todays_df.loc[ind, 'id'])
                     print(datetime.datetime.now().strftime("%H:%M:%S"))
-                    tweeted_ids.append(todays_df.loc[ind, 'id'])
+                    #tweeted_ids.append(todays_df.loc[ind, 'id'])
                     idfile = open('id_list.txt', 'a')
                     idfile.write("\n" + todays_df.loc[ind, 'id'])
                     idfile.close()
@@ -198,6 +198,8 @@ while True:
                 except tweepy.TweepError as e:
                     print('TweepError:')
                     #print(e.message[0]['code']) # prints 34
+                tweeted_ids.append(todays_df.loc[ind, 'id'])
+
 
     sleep(8)
     print("Updated as of: " + datetime.datetime.now().strftime("%H:%M:%S") + today_string)
